@@ -6,7 +6,7 @@ const Dashboard = () => {
   const db = [
     {
       name: "Raju",
-      url: "https://humornama.com/wp-content/uploads/2022/03/Akshay-Kumar-Pose-Meme-Template-on-Phir-Hera-Pheri-1152x648.jpg",
+      url: "https://d33wubrfki0l68.cloudfront.net/2a3556a09e73a07aacedb2bcfaa39512cd37a3f4/68f50/img/templates/akshay-kumar-scheme-pose.png",
     },
     {
       name: "Ronduu",
@@ -18,11 +18,11 @@ const Dashboard = () => {
     },
     {
       name: "Bandya",
-      url: "https://humornama.com/wp-content/uploads/2022/03/Aap-Do-Na-Meme-Template-on-Chup-Chup-Ke-1152x691.jpg",
+      url: "https://mirchiplay.com/wp-content/uploads/2021/09/r1_5faa6607c23f7.jpeg",
     },
     {
       name: "Bada Ladka",
-      url: "https://humornama.com/wp-content/uploads/2022/03/Choti-Bachi-Ho-Kya-Meme-Template-on-Heropanti-1152x691.jpg",
+      url: "https://img.mensxp.com/media/content/2022/Apr/header_626a736305242.jpeg?w=1100&h=558&cc=1",
     },
   ];
 

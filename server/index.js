@@ -16,12 +16,14 @@ app.get("/", (req, res) => {
   res.json("Hello Tinder");
 });
 
+//Sign up to the database
 app.post("/signup", async (req, res) => {
   const client = new MongoClient(uri);
+  console.log(req.body);
   const { email, password } = req.body;
 
-  const genratedUserId = uuidv4();
-  const hashedpassword = await bcrypt.hash(password, 10);
+  const generatedUserId = uuidv4();
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
     await client.connect();
@@ -29,16 +31,17 @@ app.post("/signup", async (req, res) => {
     const users = database.collection("users");
 
     const existingUser = await users.findOne({ email });
+
     if (existingUser) {
-      return res.status(409).send("User already exists. Please login.");
+      return res.status(409).send("User already exists. Please login");
     }
 
     const freshEmail = email.toLowerCase();
 
     const data = {
-      user_id: genratedUserId,
+      user_id: generatedUserId,
       email: freshEmail,
-      hashed_password: hashedpassword,
+      hashed_password: hashedPassword,
     };
 
     const insertedUser = await users.insertOne(data);
@@ -46,9 +49,11 @@ app.post("/signup", async (req, res) => {
     const token = jwt.sign(insertedUser, freshEmail, {
       expiresIn: 60 * 24,
     });
-    res.send(201).json({ token, userId: genratedUserId, email: freshEmail });
-  } catch (error) {
-    console.log(error);
+    res.status(201).json({ token, userId: generatedUserId, email: freshEmail });
+  } catch (err) {
+    console.log(err);
+  } finally {
+    await client.close();
   }
 });
 

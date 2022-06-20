@@ -1,12 +1,14 @@
-import axios from "axios";
 import { useState } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const AuthModal = ({ setShowModal, isSignUp }) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState(null);
   const [error, setError] = useState(null);
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
   let navigate = useNavigate();
 
@@ -18,18 +20,27 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       if (isSignUp && password !== confirmPassword) {
-        setError("Passoword need to match!!");
+        setError("Passwords need to match!");
         return;
       }
-      const response = await axios.post("http://localhost:8000/signup", {
-        email,
-        password,
-      });
+      console.log("posting", email, password);
+      const response = await axios.post(
+        `http://localhost:8000/${isSignUp ? "signup" : "login"}`,
+        { email, password }
+      );
+
+      setCookie("Email", response.data.email);
+      setCookie("UserId", response.data.userId);
+      setCookie("AuthToken", response.data.token);
 
       const success = response.status === 201;
-      if (success) navigate("/onboarding");
+      if (success && isSignUp) navigate("/onboarding");
+      if (success && !isSignUp) navigate("/dashboard");
+
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -38,12 +49,13 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
   return (
     <div className="auth-modal">
       <div className="close-icon" onClick={handleClick}>
-        ❌
+        ⓧ
       </div>
+
       <h2>{isSignUp ? "CREATE ACCOUNT" : "LOG IN"}</h2>
       <p>
-        By clicking Log in, you agree to our terms. Learn how we process your
-        data in our Private Policy and Cookie Policy.
+        By clicking Log In, you agree to our terms. Learn how we process your
+        data in our Privacy Policy and Cookie Policy.
       </p>
       <form onSubmit={handleSubmit}>
         <input
@@ -54,7 +66,6 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
           required={true}
           onChange={(e) => setEmail(e.target.value)}
         />
-
         <input
           type="password"
           id="password"
@@ -63,25 +74,23 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
           required={true}
           onChange={(e) => setPassword(e.target.value)}
         />
-
         {isSignUp && (
           <input
             type="password"
             id="password-check"
             name="password-check"
-            placeholder="confirm-password"
+            placeholder="confirm password"
             required={true}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         )}
-
         <input className="secondary-button" type="submit" />
         <p>{error}</p>
       </form>
+
       <hr />
       <h2>GET THE APP</h2>
     </div>
   );
 };
-
 export default AuthModal;
