@@ -301,6 +301,10 @@ nav .logo-container .logo {
   color: rgb(255, 255, 255);
 }
 
+.chat-container .log-out-icon {
+  cursor: pointer;
+}
+
 .img-container {
   height: 30px;
   width: 30px;

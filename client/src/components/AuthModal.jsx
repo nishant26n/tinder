@@ -33,7 +33,7 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
       );
 
       setCookie("AuthToken", response.data.token);
-      setCookie("userId", response.data.userId);
+      setCookie("UserId", response.data.userId);
 
       const success = response.status === 201;
       if (success && isSignUp) navigate("/onboarding");
