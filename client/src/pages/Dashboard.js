@@ -6,6 +6,8 @@ import axios from "axios";
 
 const Dashboard = () => {
   const [user, setUser] = useState([]);
+  const [genderedUsers, setGenderedUsers] = useState([]);
+  const [lastDirection, setLastDirection] = useState();
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
   const userId = cookies.UserId;
@@ -21,37 +23,49 @@ const Dashboard = () => {
     }
   };
 
+  const getGenderedUser = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/gendered-users", {
+        params: { gender: user?.gender_interest },
+      });
+      setGenderedUsers(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     getUser();
+    getGenderedUser();
   }, []);
 
   console.log("user", user);
+  console.log("genderedUsers", genderedUsers);
 
-  const db = [
-    {
-      name: "Raju",
-      url: "https://d33wubrfki0l68.cloudfront.net/2a3556a09e73a07aacedb2bcfaa39512cd37a3f4/68f50/img/templates/akshay-kumar-scheme-pose.png",
-    },
-    {
-      name: "Ronduu",
-      url: "https://newfastuff.com/wp-content/uploads/2020/04/wvqqk6g8z6r41-150x150.png",
-    },
-    {
-      name: "Deepak Kalal",
-      url: "https://www.celebrityborn.com/admin/assets/images/people/deepak_kalal_504.png",
-    },
-    {
-      name: "Bandya",
-      url: "https://mirchiplay.com/wp-content/uploads/2021/09/r1_5faa6607c23f7.jpeg",
-    },
-    {
-      name: "Bada Ladka",
-      url: "https://img.mensxp.com/media/content/2022/Apr/header_626a736305242.jpeg?w=1100&h=558&cc=1",
-    },
-  ];
+  // const db = [
+  //   {
+  //     name: "Raju",
+  //     url: "https://d33wubrfki0l68.cloudfront.net/2a3556a09e73a07aacedb2bcfaa39512cd37a3f4/68f50/img/templates/akshay-kumar-scheme-pose.png",
+  //   },
+  //   {
+  //     name: "Ronduu",
+  //     url: "https://newfastuff.com/wp-content/uploads/2020/04/wvqqk6g8z6r41-150x150.png",
+  //   },
+  //   {
+  //     name: "Deepak Kalal",
+  //     url: "https://www.celebrityborn.com/admin/assets/images/people/deepak_kalal_504.png",
+  //   },
+  //   {
+  //     name: "Bandya",
+  //     url: "https://mirchiplay.com/wp-content/uploads/2021/09/r1_5faa6607c23f7.jpeg",
+  //   },
+  //   {
+  //     name: "Bada Ladka",
+  //     url: "https://img.mensxp.com/media/content/2022/Apr/header_626a736305242.jpeg?w=1100&h=558&cc=1",
+  //   },
+  // ];
 
-  const characters = db;
-  const [lastDirection, setLastDirection] = useState();
+  // const characters = db;
 
   const swiped = (direction, nameToDelete) => {
     console.log("removing: ", nameToDelete);
@@ -67,18 +81,18 @@ const Dashboard = () => {
       <ChatContainer user={user} />
       <div className="swipe-container">
         <div className="card-container">
-          {characters.map((character) => (
+          {genderedUsers?.map((genderedUser) => (
             <TinderCard
               className="swipe"
-              key={character.name}
-              onSwipe={(dir) => swiped(dir, character.name)}
-              onCardLeftScreen={() => outOfFrame(character.name)}
+              key={genderedUser.name}
+              onSwipe={(dir) => swiped(dir, genderedUser.first_name)}
+              onCardLeftScreen={() => outOfFrame(genderedUser.first_name)}
             >
               <div
-                style={{ backgroundImage: "url(" + character.url + ")" }}
+                style={{ backgroundImage: "url(" + genderedUser.url + ")" }}
                 className="card"
               >
-                <h3>{character.name}</h3>
+                <h3>{genderedUser.first_name}</h3>
               </div>
             </TinderCard>
           ))}
