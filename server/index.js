@@ -89,6 +89,25 @@ app.post("/login", async (req, res) => {
   }
 });
 
+// Get individual user
+app.get("/user", async (req, res) => {
+  const client = new MongoClient(uri);
+  const userId = req.query.userId;
+
+  try {
+    await client.connect();
+    const database = client.db("app-data");
+    const users = database.collection("users");
+
+    const query = { user_id: userId };
+    const user = await users.findOne(query);
+    res.send(user);
+  } finally {
+    await client.close();
+  }
+});
+
+// Get all the Gendered Users in the Database
 app.get("/gendered-users", async (req, res) => {
   const client = new MongoClient(uri);
   const gender = req.query.gender;
@@ -101,13 +120,13 @@ app.get("/gendered-users", async (req, res) => {
     const users = database.collection("users");
     const query = { gender_identity: { $eq: gender } };
     const foundUsers = await users.find(query).toArray();
-
     res.send(foundUsers);
   } finally {
     await client.close();
   }
 });
 
+// Update a User in the Database
 app.put("/user", async (req, res) => {
   const client = new MongoClient(uri);
   const formData = req.body.formData;
@@ -134,24 +153,6 @@ app.put("/user", async (req, res) => {
     };
     const insertedUser = await users.updateOne(query, updateDocument);
     res.send(insertedUser);
-  } finally {
-    await client.close();
-  }
-});
-
-// Get individual user
-app.get("/user", async (req, res) => {
-  const client = new MongoClient(uri);
-  const userId = req.query.userId;
-
-  try {
-    await client.connect();
-    const database = client.db("app-data");
-    const users = database.collection("users");
-
-    const query = { user_id: userId };
-    const user = await users.findOne(query);
-    res.send(user);
   } finally {
     await client.close();
   }
