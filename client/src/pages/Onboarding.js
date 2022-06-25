@@ -48,7 +48,7 @@ const Onboarding = () => {
     }));
   };
 
-  console.log(formData);
+  // console.log(formData);
 
   return (
     <>

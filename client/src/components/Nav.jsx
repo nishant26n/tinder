@@ -1,13 +1,11 @@
 import whiteLogo from "../images/white-tinder-logo.png";
 import colorLogo from "../images/tinder-logo.png";
 
-const Nav = ({ minimal, setShowModal, showModal, setIsSignUp }) => {
+const Nav = ({ authToken, minimal, setShowModal, showModal, setIsSignUp }) => {
   const handleClick = () => {
     setShowModal(true);
     setIsSignUp(false);
   };
-
-  const authToken = false;
 
   return (
     <nav>

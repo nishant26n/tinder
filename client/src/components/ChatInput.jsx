@@ -1,7 +1,33 @@
+import axios from "axios";
 import { useState } from "react";
 
-const ChatInput = () => {
-  const [textArea, setTextArea] = useState(null);
+const ChatInput = ({
+  user,
+  clickedUser,
+  getUsersMessages,
+  getClickedUsersMessages,
+}) => {
+  const [textArea, setTextArea] = useState("");
+  const userId = user?.user_id;
+  const clickedUserId = clickedUser?.user_id;
+
+  const addMessage = async () => {
+    const message = {
+      timestamp: new Date().toISOString(),
+      from_userId: userId,
+      to_userId: clickedUserId,
+      message: textArea,
+    };
+
+    try {
+      await axios.post("http://localhost:8000/message", { message });
+      getUsersMessages();
+      getClickedUsersMessages();
+      setTextArea("");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="chat-input">
@@ -9,7 +35,9 @@ const ChatInput = () => {
         value={textArea}
         onChange={(e) => setTextArea(e.target.value)}
       />
-      <button className="secondary-button">Submit</button>
+      <button className="secondary-button" onClick={addMessage}>
+        Submit
+      </button>
     </div>
   );
 };
