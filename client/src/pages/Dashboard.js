@@ -35,12 +35,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     getUser();
-  }, []);
-
-  useEffect(() => {
-    if (user) {
-      getGenderedUsers();
-    }
+    getGenderedUsers();
   }, [user]);
 
   const updateMatches = async (matchedUserId) => {
@@ -74,7 +69,7 @@ const Dashboard = () => {
     (genderedUser) => !matchedUserIds.includes(genderedUser.user_id)
   );
 
-  console.log("filteredGenderedUsers ", filteredGenderedUsers);
+  // console.log("filteredGenderedUsers ", filteredGenderedUsers);
   return (
     <>
       {user && (

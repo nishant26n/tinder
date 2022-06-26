@@ -48,7 +48,7 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
   return (
     <div className="auth-modal">
       <div className="close-icon" onClick={handleClick}>
-        ⓧ
+        <i className="fas fa-times-circle"></i>
       </div>
 
       <h2>{isSignUp ? "CREATE ACCOUNT" : "LOG IN"}</h2>

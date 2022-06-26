@@ -120,7 +120,7 @@ app.get("/gendered-users", async (req, res) => {
     const users = database.collection("users");
     const query = { gender_identity: { $eq: gender } };
     const foundUsers = await users.find(query).toArray();
-    res.send(foundUsers);
+    res.json(foundUsers);
   } finally {
     await client.close();
   }
@@ -171,7 +171,7 @@ app.get("/users", async (req, res) => {
 
     const foundUsers = await users.aggregate(pipeline).toArray();
     // console.log(foundUsers);
-    res.send(foundUsers);
+    res.json(foundUsers);
   } finally {
     await client.close();
   }
@@ -203,7 +203,7 @@ app.put("/user", async (req, res) => {
       },
     };
     const insertedUser = await users.updateOne(query, updateDocument);
-    res.send(insertedUser);
+    res.json(insertedUser);
   } finally {
     await client.close();
   }

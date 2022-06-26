@@ -90,7 +90,7 @@ nav .logo-container .logo {
 .overlay {
   width: 100vw;
   height: 100vh;
-  /* position: fixed; */
+  position: fixed;
   background: linear-gradient(
       to bottom,
       rgb(0, 0, 0, 0.65) 0%,
@@ -121,6 +121,7 @@ nav .logo-container .logo {
 .auth-modal .close-icon {
   float: right;
   cursor: pointer;
+  font-size: 25px;
 }
 
 .auth-modal form {
@@ -287,6 +288,7 @@ nav .logo-container .logo {
   font-size: 20px;
   margin: 2px;
   padding: 10px;
+  cursor: pointer;
 }
 
 .chat-container .option:disabled {
@@ -303,6 +305,7 @@ nav .logo-container .logo {
 
 .chat-container .log-out-icon {
   cursor: pointer;
+  font-size: 30px;
 }
 
 .img-container {
@@ -325,9 +328,72 @@ nav .logo-container .logo {
   overflow-y: auto;
 }
 
+.matches-display .img-container {
+  cursor: pointer;
+}
+
 /* --------- Chat Input---------- */
 .chat-input {
   padding: 20px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+}
+
+.chat-input .text {
+  width: 100%;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 869px) {
+  .home {
+    margin-top: 40vh;
+  }
+  .primary-title {
+    font-size: 50px;
+  }
+  .auth-modal {
+    max-width: 260px;
+    height: 500px;
+  }
+  .onboarding form input {
+    padding: 5px;
+  }
+  #dob_day,
+  #dob_month,
+  #dob_year {
+    width: 35px;
+  }
+  .onboarding .photo-container {
+    width: 100px;
+    margin-left: 15px;
+  }
+}
+
+@media screen and (max-width: 696px) {
+  .home {
+    margin-top: 20vh;
+  }
+
+  .dashboard {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .dashboard .chat-container {
+    width: 100%;
+  }
+
+  .dashboard .swipe-container {
+    justify-self: center;
+  }
+
+  .swipe {
+    margin-left: 55px;
+  }
+
+  .card {
+    width: 300px;
+    height: 500px;
+  }
 }
