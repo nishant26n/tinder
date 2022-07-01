@@ -1,4 +1,4 @@
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 const express = require("express");
 const { MongoClient } = require("mongodb");
 const { v4: uuidv4 } = require("uuid");
@@ -7,10 +7,12 @@ const cors = require("cors");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 const uri = process.env.URI;
+// const path = require("path");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+// app.use(express.static(path.join(__dirname + "/public")));
 
 app.get("/", (req, res) => {
   res.json("Hello Tinder");
@@ -247,4 +249,4 @@ app.post("/message", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => console.log("Server running on port " + PORT));
+app.listen(PORT, () => console.log("service running on PORT", PORT));

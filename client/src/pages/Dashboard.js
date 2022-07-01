@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import TinderCard from "react-tinder-card";
 import { useEffect, useState } from "react";
 import ChatContainer from "../components/ChatContainer";
@@ -35,7 +36,12 @@ const Dashboard = () => {
 
   useEffect(() => {
     getUser();
-    getGenderedUsers();
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      getGenderedUsers();
+    }
   }, [user]);
 
   const updateMatches = async (matchedUserId) => {
